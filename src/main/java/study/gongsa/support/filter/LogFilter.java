@@ -18,7 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Slf4j
-@WebFilter(urlPatterns = "/api/*")
+@WebFilter(urlPatterns = {"/api/user/*","/api/answer/*","/api/category/*","/api/study-group/*"
+        ,"/api/group-member/*","/api/user-category/*","/api/question/*","/api/push"})
 public class LogFilter implements Filter {
 
     private final ObjectMapper objectMapper;
@@ -34,10 +35,12 @@ public class LogFilter implements Filter {
         ContentCachingResponseWrapper httpServletResponse = new ContentCachingResponseWrapper((HttpServletResponse) response);
         chain.doFilter(httpServletRequest, httpServletResponse);
 
+        /*
         if(httpServletRequest.getRequestURI().contains("/api/image/")){
             log.info("[REQUEST] {}\n[RESPONSE] {}:{}", httpServletRequest.getRequestURI(), httpServletResponse.getStatus(), httpServletResponse.getContentSize());
             return;
         }
+         */
 
         RequestLog requestLog = RequestLog.builder()
                 .method(httpServletRequest.getMethod())
